@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Serverless App</title>
+  <h1>Serverless Portfolio</h1>
+
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 80%;
+      margin-top: 20px;
+    }
+    th, td {
+      border: 1px solid #aaa;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f0f0f0;
+    }
+  </style>
+
+</head>
+<body>
+  <h2>userID検索</h2>
+  <input id="getID" type="text" placeholder="IDを入力">
+  <button onclick="callApi()">名前呼び出し</button>
+
+  <p id="getResult"></p>
+  
+  <hr>
+  
+   <h2>名前データ登録</h2>
+  <input id="name" type="text" placeholder="名前を入力">
+  <button onclick="sendData()">名前送信</button>
+
+  <p id="postResult"></p>
+  
+
+  <hr>
+  <h2>複数データ登録</h2>
+  <input type="text" id="names" placeholder="名前"><br><br> 
+  <input type="text" id="department" placeholder="部署"><br><br> 
+  <input type="email" id="email" placeholder="メール"><br><br>
+  <button onclick="sendsData()">登録</button>
+
+  <p id="postsResult"></p>
+  <p id="sendedData"></p>
+
+  <hr>
+  <h2>メアド検索</h2>
+  <input type="email" id="hit-email" placeholder="メール"><br><br>
+  <button onclick="getsData()">検索</button>
+  <p id="getsResult"></p>
+
+  <script>
+    function getToken() {
+      const hash = window.location.hash.substring(1);
+      const params = new URLSearchParams(hash);
+      return params.get("id_token");
+    }
+
+    window.onload = () => {
+      const token = getToken();
+
+      if (!token) {
+        // ログイン画面へリダイレクト
+        window.location.href =
+          "https://d7vo1194b0w.cloudfront.net/login.html" +
+          "?response_type=token" +
+          "&client_id=your-client-id" +
+          "&redirect_uri=" + window.location.href;
+      }
+    };
+
+    const API_URL= "https://4okxg9oyde.execute-api.ap-northeast-1.amazonaws.com";
+
+    async function callApi() {
+      clearResults();
+      const id = document.getElementById("getID").value;
+      const resultDiv = document.getElementById("getResult");
+      resultDiv.innerHTML = "";
+      if (!id){
+        alert("入力して！");
+        return;
+      }
+
+      if (/\s/.test(id)) {
+        alert("スペースは使えません");
+        return;
+      }
+
+      const res = await fetch(`${API_URL}/hello?id=${id}`);
+      const text = await res.json();
+
+      if (res.status === 200) {
+        resultDiv.innerHTML = text.saved;
+        document.getElementById("getID").value = ""
+      } else {
+        resultDiv.innerHTML = text.error;
+      }
+    }
+
+    async function sendData() {
+      clearResults();
+      const name = document.getElementById("name").value;
+      const resultDiv = document.getElementById("postResult");
+      resultDiv.innerHTML = "";  
+      if (!name){
+        alert("入力して！");
+        return;
+      }
+
+      if (/\s/.test(name)) {
+        alert("スペースは使えません");
+        return;
+      }
+
+      const res = await fetch(`${API_URL}/hello`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ name: name })
+      });
+
+      const text = await res.json();
+
+      if (res.status === 200) {
+        resultDiv.innerHTML = text.saved;
+        document.getElementById("name").value = ""
+      } else {
+        resultDiv.innerHTML = text.error;
+      }
+    }
+
+    async function sendsData() {
+      clearResults();
+      const name = document.getElementById("names").value;
+      const department = document.getElementById("department").value;
+      const email = document.getElementById("email").value;
+      const resultDiv = document.getElementById("postsResult");
+      resultDiv.innerHTML = "";  
+      
+      if (!name || !department || !email) {
+        alert("全部入力して！");
+        return;
+      }
+
+      if (/\s/.test(name) || /\s/.test(department) || /\s/.test(email)) {
+        alert("スペースは使えません");
+        return;
+      }
+
+      try {
+        const res = await fetch(`${API_URL}/users`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            name: name,
+            department: department,
+            email: email
+          })
+        });
+        const text = await res.json();
+
+
+        if (res.status === 200) {
+          resultDiv.innerHTML = text.saved
+          document.getElementById("sendedData").innerHTML = "名前：" + name + "　部署：" + department + "　メール：" + email;
+          document.getElementById("names").value = "";
+          document.getElementById("department").value = "";
+          document.getElementById("email").value = "";
+        } else {
+          resultDiv.innerHTML = text.error;
+        }
+
+    } catch(e){
+      resultDiv.innerText = "エラー：" + e;
+    }
+  }
+
+  async function getsData() {
+      clearResults();
+      const email = document.getElementById("hit-email").value;
+      const resultDiv = document.getElementById("getsResult");
+
+      if (!email) {
+        document.getElementById("getsResult").innerText = "";
+        alert("入力して！");
+        return;
+      }
+
+      if (/\s/.test(email)) {
+        alert("スペースは使えません");
+        return;
+      }
+
+      try{
+        const res = await fetch(`${API_URL}/users?email=${email}`);
+        const data = await res.json();
+        // 空チェック
+        if (!data || data.length === 0) {
+          resultDiv.innerHTML = "該当データなし";
+          return;
+        }
+
+        // テーブル作成
+        let html = "<table><tr><th>ID</th><th>名前</th><th>部署</th><th>メール</th></tr>";
+        data.forEach(user => {
+          html += `<tr>
+            <td>${user.users_id}</td>
+            <td>${user.name}</td>
+            <td>${user.department}</td>
+            <td>${user.email}</td>
+          </tr>`;
+        });
+        html += "</table>";
+        resultDiv.innerHTML = html;
+
+      }catch(e){
+        document.getElementById("getsResult").innerText = "エラー：" + e;
+      }
+  }
+
+  function clearResults() {
+    document.getElementById("getResult").innerHTML = "";
+    document.getElementById("postResult").innerHTML = "";
+    document.getElementById("postsResult").innerHTML = "";
+    document.getElementById("getsResult").innerHTML = "";
+    document.getElementById("sendedData").innerHTML = "";
+  }
+
+  </script>
+  
+</body>
+</html>

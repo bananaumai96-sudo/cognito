@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Cognito Login Sample</title>
+</head>
+<body>
+
+<h2>ログイン</h2>
+<button onclick="login()">Cognitoログイン</button>
+
+<script>
+const domain = "https://my-sample-auth-domain-12345.auth.ap-northeast-1.amazoncognito.com";
+const clientId = "ag2ff9vrekabfrdrnh8rrm16u";
+const redirectUri = "https://d7vo1194b0w.cloudfront.net";
+const API_URL= "https://4okxg9oyde.execute-api.ap-northeast-1.amazonaws.com/secure";
+
+// =====================
+// ログイン
+// =====================
+function login() {
+  const url = `${domain}/login?response_type=token&client_id=${clientId}&redirect_uri=${redirectUri}`;
+  window.location.href = url;
+}
+
+// =====================
+// トークン取得
+// =====================
+function getToken() {
+  const hash = window.location.hash.substring(1);
+  const params = new URLSearchParams(hash);
+  return params.get("id_token");
+}
+
+</script>
+
+</body>
+</html>

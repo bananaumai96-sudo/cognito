@@ -1,0 +1,37 @@
+# --- S3バケット作成で使用 ---
+bucket_name = "example"
+
+# --- Lambda関数で使用 ---
+name = "api-lambda"
+handler = ""example".lambda_handler"
+runtime = "python3.12"
+filename = ""example".zip"
+policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+db_policy_arn = "arn:aws:iam::example:policy/"example""
+lambda_action = "lambda:InvokeFunction"
+lambda_principal = "apigateway.amazonaws.com"
+
+# --- APIで使用 ---
+api_protocol = "HTTP"
+api_route = [ 
+    "GET /hello",
+    "POST /hello",
+    "OPTIONS /hello",
+    "POST /users",
+    "GET /users"
+  ]
+api_allow_origins = ["example"]
+api_allow_methods = ["GET", "POST", "OPTIONS"]
+api_allow_headers = ["Content-Type"]
+api_integration_type       = "AWS_PROXY"
+api_integration_method     = "POST"
+api_payload_format_version = "2.0"
+
+# --- DynamoDBで使用 ---
+db_billing_mode = "PAY_PER_REQUEST"
+db_hash_key = "users_id"
+db_key_type = "S"
+db_gsi_hash_key = "email"
+db_gsi_key_type = "S"
+db_gsi_name = "email-index"
+db_gsi_projection_type = "ALL"
