@@ -82,46 +82,46 @@ locals {
     "lambda:UpdateFunctionCode"
   ]
 
-    api_Actions = [
+  api_Actions = [
     "apigateway:GET",
     "apigateway:POST",
     "apigateway:PUT",
     "apigateway:DELETE",
     "apigateway:PATCH"
   ]
-    dynamodb_Actions = [
-      "dynamodb:CreateTable",
-      "dynamodb:DescribeTable",
-      "dynamodb:DeleteTable",
-      "dynamodb:ListTables",
-      "dynamodb:DescribeContinuousBackups",
-      "dynamodb:DescribeTimeToLive",
-      "dynamodb:ListTagsOfResource",
-      "dynamodb:UpdateTable",
-      "dynamodb:PutItem",
-      "dynamodb:GetItem",
-      "dynamodb:DeleteItem"
+  dynamodb_Actions = [
+    "dynamodb:CreateTable",
+    "dynamodb:DescribeTable",
+    "dynamodb:DeleteTable",
+    "dynamodb:ListTables",
+    "dynamodb:DescribeContinuousBackups",
+    "dynamodb:DescribeTimeToLive",
+    "dynamodb:ListTagsOfResource",
+    "dynamodb:UpdateTable",
+    "dynamodb:PutItem",
+    "dynamodb:GetItem",
+    "dynamodb:DeleteItem"
   ]
 
-    cognito_Actions = [
-      "cognito-idp:CreateUserPool",
-      "cognito-idp:DeleteUserPool",
-      "cognito-idp:DescribeUserPool",
-      "cognito-idp:UpdateUserPool",
-      "cognito-idp:GetUserPoolMfaConfig",
-      "cognito-idp:CreateUserPoolClient",
-      "cognito-idp:CreateUserPoolDomain",
-      "cognito-idp:DescribeUserPoolDomain",
-      "cognito-idp:DescribeUserPoolClient",
-      "cognito-idp:DeleteUserPoolDomain",
-      "cognito-idp:AdminCreateUser",
-      "cognito-idp:AdminGetUser",
-      "cognito-idp:AdminDeleteUser",
-      "cognito-idp:UpdateUserPoolClient",
-      "cognito-idp:DeleteUserPoolClient"
+  cognito_Actions = [
+    "cognito-idp:CreateUserPool",
+    "cognito-idp:DeleteUserPool",
+    "cognito-idp:DescribeUserPool",
+    "cognito-idp:UpdateUserPool",
+    "cognito-idp:GetUserPoolMfaConfig",
+    "cognito-idp:CreateUserPoolClient",
+    "cognito-idp:CreateUserPoolDomain",
+    "cognito-idp:DescribeUserPoolDomain",
+    "cognito-idp:DescribeUserPoolClient",
+    "cognito-idp:DeleteUserPoolDomain",
+    "cognito-idp:AdminCreateUser",
+    "cognito-idp:AdminGetUser",
+    "cognito-idp:AdminDeleteUser",
+    "cognito-idp:UpdateUserPoolClient",
+    "cognito-idp:DeleteUserPoolClient"
   ]
-  
-   cloudfront_Actions = [
+
+  cloudfront_Actions = [
     "cloudfront:CreateDistribution",
     "cloudfront:GetDistribution",
     "cloudfront:GetDistributionConfig",

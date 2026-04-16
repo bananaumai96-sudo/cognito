@@ -5,10 +5,10 @@ resource "aws_cognito_user_pool" "main" {
 
 
   schema {
-    name     = var.modules_schema_name
+    name                = var.modules_schema_name
     attribute_data_type = var.modules_schema_attribute_data_type
-    required = var.modules_schema_required
-    mutable  = var.modules_schema_mutable
+    required            = var.modules_schema_required
+    mutable             = var.modules_schema_mutable
   }
 
 }
@@ -19,8 +19,8 @@ resource "aws_cognito_user_pool_client" "client" {
 
   generate_secret = var.modules_generate_secret
 
-  allowed_oauth_flows = var.modules_allowed_oauth_flows
-  allowed_oauth_scopes = var.modules_allowed_oauth_scopes
+  allowed_oauth_flows                  = var.modules_allowed_oauth_flows
+  allowed_oauth_scopes                 = var.modules_allowed_oauth_scopes
   allowed_oauth_flows_user_pool_client = var.modules_allowed_oauth_flows_user_pool_client
 
   callback_urls = var.modules_callback_urls
@@ -39,7 +39,7 @@ resource "aws_cognito_user" "test_user" {
   username     = var.modules_username
 
   attributes = {
-    email = var.modules_attributes_email
+    email          = var.modules_attributes_email
     email_verified = var.modules_attributes_email_verified
   }
 

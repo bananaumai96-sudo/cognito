@@ -2,15 +2,15 @@ resource "aws_apigatewayv2_api" "api" {
   name          = "serverless-http-api"
   protocol_type = var.modules_api_protocol
   cors_configuration {
-  allow_origins = var.modules_api_allow_origins
-  allow_methods = var.modules_api_allow_methods
-  allow_headers = var.modules_api_allow_headers
-}
+    allow_origins = var.modules_api_allow_origins
+    allow_methods = var.modules_api_allow_methods
+    allow_headers = var.modules_api_allow_headers
+  }
 
 }
 
 resource "aws_apigatewayv2_route" "get" {
-for_each = toset(var.modules_api_route)
+  for_each  = toset(var.modules_api_route)
   api_id    = aws_apigatewayv2_api.api.id
   route_key = each.value
   target    = "integrations/${aws_apigatewayv2_integration.lambda.id}"
@@ -31,8 +31,8 @@ resource "aws_apigatewayv2_integration" "lambda" {
 }
 
 resource "aws_apigatewayv2_authorizer" "cognito_auth" {
-  name = "cognito-authorizer"
-  api_id = aws_apigatewayv2_api.api.id
+  name            = "cognito-authorizer"
+  api_id          = aws_apigatewayv2_api.api.id
   authorizer_type = "JWT"
 
   identity_sources = ["$request.header.Authorization"]
@@ -49,6 +49,6 @@ resource "aws_apigatewayv2_route" "secured" {
 
   target = "integrations/${aws_apigatewayv2_integration.lambda.id}"
 
-  authorizer_id = aws_apigatewayv2_authorizer.cognito_auth.id
+  authorizer_id      = aws_apigatewayv2_authorizer.cognito_auth.id
   authorization_type = "JWT"
 }
