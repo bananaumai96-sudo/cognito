@@ -126,3 +126,96 @@ variable "db_gsi_projection_type" {
   description = "gsi_projection_type"
   type        = string
 }
+
+# --- Cognitoで使用 ---
+# --- user pool ---
+variable "auto_verified_attributes" {
+    description = "auto_verified_attributes"
+    type = list(string)
+}
+
+variable "schema_name" {
+    description = "name"
+    type = string
+}
+
+
+variable "schema_attribute_data_type" {
+    description = "attribute_data_type"
+    type = string
+}
+
+
+variable "schema_required" {
+    description = "required"
+    type = bool
+}
+
+
+variable "schema_mutable" {
+    description = "mutable"
+    type = bool
+}
+
+# --- user_pool_client ---
+variable "generate_secret" {
+    description = "generate_secret"
+    type = bool
+}
+
+variable "allowed_oauth_flows" {
+    description = "allowed_oauth_flows"
+    type = list(string)
+}
+
+variable "allowed_oauth_scopes" {
+    description = "allowed_oauth_scopes"
+    type = list(string)
+}
+
+variable "allowed_oauth_flows_user_pool_client" {
+    description = "allowed_oauth_flows_user_pool_client"
+    type = bool
+}
+
+variable "callback_urls" {
+    description = "callback_urls"
+    type = list(string)
+}
+
+variable "logout_urls" {
+    description = "logout_urls"
+    type = list(string)
+}
+
+variable "supported_identity_providers" {
+    description = "supported_identity_providers"
+    type = list(string)
+}
+
+# --- user_pool_domain ---
+variable "user_pool_domain" {
+    description = "user_pool_domain"
+    type = string
+}
+
+# --- cognito_user ---
+variable "username" {
+    description = "username"
+    type = string
+}
+
+variable "attributes_email" {
+    description = "attributes_email"
+    type = string
+}
+
+variable "attributes_email_verified" {
+    description = "attributes_email_verified"
+    type = string
+}
+
+variable "temporary_password" {
+    description = "temporary_password"
+    type = string
+}
