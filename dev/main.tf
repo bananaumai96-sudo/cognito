@@ -20,6 +20,7 @@ module "lambda" {
 module "s3" {
   source         = "../modules/s3"
   s3_bucket_name = var.bucket_name
+  modules_cloudfornt_distribution_arn = module.cloudfront.distribution_site_arn
 }
 
 # --- API Gateway作成 ---
@@ -83,3 +84,23 @@ module "cognito" {
   modules_attributes_email_verified = var.attributes_email_verified
   modules_temporary_password = var.temporary_password
 }
+
+# --- CloudFront作成 ---
+module "cloudfront" {
+  source = "../modules/cloudfront"
+  modules_s3_bucket_domain_name = module.s3.regional_domain_name
+  modules_origin_id = var.origin_id
+  modules_target_origin_id = var.target_origin_id
+  modules_viewer_protocol_policy = var.viewer_protocol_policy
+  modules_allowed_methods = var.allowed_methods
+  modules_cached_methods = var.cached_methods
+  modules_restriction_type = var.restriction_type
+  modules_cloudfront_default_certificate = var.cloudfront_default_certificate
+  modules_oac_name = var.oac_name
+  modules_oac_description = var.oac_description
+  modules_origin_access_control_origin_type = var.origin_access_control_origin_type
+  modules_signing_behavior = var.signing_behavior
+  modules_signing_protocol = var.signing_protocol
+
+}
+

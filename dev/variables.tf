@@ -219,3 +219,64 @@ variable "temporary_password" {
     description = "temporary_password"
     type = string
 }
+
+# --- CloudFront ---
+variable "origin_id" {
+    description = "origin_id"
+    type = string
+}
+
+variable "target_origin_id" {
+    description = "target_origin_id"
+    type = string
+}
+
+variable "viewer_protocol_policy" {
+    description = "viewer_protocol_policy"
+    type = string
+}
+
+variable "allowed_methods" {
+    description = "allowed_methods"
+    type = list(string)
+}
+
+variable "cached_methods" {
+    description = "cached_methods"
+    type = list(string)
+}
+
+variable "restriction_type" {
+    description = "restriction_type"
+    type = string
+}
+
+variable "cloudfront_default_certificate" {
+    description = "cloudfront_default_certificate"
+    type = bool
+}
+
+variable "oac_name" {
+    description = "oac_name"
+    type = string
+}
+
+variable "oac_description" {
+    description = "oac_description"
+    type = string
+}
+
+variable "origin_access_control_origin_type" {
+    description = "origin_access_control_origin_type"
+    type = string
+}
+
+variable "signing_behavior" {
+    description = "signing_behavior"
+    type = string
+}
+
+variable "signing_protocol" {
+    description = "signing_protocol"
+    type = string
+}

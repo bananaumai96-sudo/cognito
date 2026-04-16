@@ -94,7 +94,10 @@ locals {
       "dynamodb:DescribeContinuousBackups",
       "dynamodb:DescribeTimeToLive",
       "dynamodb:ListTagsOfResource",
-      "dynamodb:UpdateTable"
+      "dynamodb:UpdateTable",
+      "dynamodb:PutItem",
+      "dynamodb:GetItem",
+      "dynamodb:DeleteItem"
   ]
 
     cognito_Actions = [
@@ -115,6 +118,29 @@ locals {
       "cognito-idp:DeleteUserPoolClient"
   ]
   
+   cloudfront_Actions = [
+    "cloudfront:CreateDistribution",
+    "cloudfront:GetDistribution",
+    "cloudfront:GetDistributionConfig",
+    "cloudfront:ListDistributions",
+    "cloudfront:TagResource",
+    "cloudfront:ListTagsForResource",
+    "cloudfront:UpdateDistribution",
+    "cloudfront:DeleteDistribution",
+    "cloudfront:CreateCachePolicy",
+    "cloudfront:CreateResponseHeadersPolicy",
+    "cloudfront:CreateOriginRequestPolicy",
+    "cloudfront:GetResponseHeadersPolicy",
+    "cloudfront:GetOriginRequestPolicy",
+    "cloudfront:GetCachePolicy",
+    "cloudfront:DeleteResponseHeadersPolicy",
+    "cloudfront:DeleteOriginRequestPolicy",
+    "cloudfront:DeleteCachePolicy",
+    "cloudfront:UpdateCachePolicy",
+    "cloudfront:ListOriginRequestPolicies",
+    "cloudfront:ListCachePolicies"
+  ]
+
   common_tags = {
     Project   = var.project_name
     ManagedBy = "terraform"

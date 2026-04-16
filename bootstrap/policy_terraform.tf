@@ -41,6 +41,13 @@ data "aws_iam_policy_document" "terraform_policy" {
     actions   = local.cognito_Actions
     resources = ["*"]
   }
+
+    statement {
+    sid       = "cloudfrontActions"
+    effect    = "Allow"
+    actions   = local.cloudfront_Actions
+    resources = ["*"]
+  }
 }
 
 resource "aws_iam_policy" "terraform_policy" {
