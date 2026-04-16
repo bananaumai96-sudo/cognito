@@ -6,12 +6,14 @@ resource "aws_iam_role" "github_action_role" {
     Statement = [{
         "Effect": "Allow",
         "Principal": {
-            "Federated": "arn:aws:iam::${var.aws_account}:oidc-provider/token.actions.githubusercontent.com"
+            "Federated": aws_iam_openid_connect_provider.github.arn
         },
         "Action": "sts:AssumeRoleWithWebIdentity",
         "Condition": {
-            "StringEquals": {
-                "token.actions.githubusercontent.com:sub": "repo:bananaumai96-sudo/cognito:ref:refs/heads/main"
+            "StringLike": {
+                "token.actions.githubusercontent.com:sub": [
+                    "repo:bananaumai96-sudo/cognito:*"
+                ]
             }
         }
     }]

@@ -4,6 +4,6 @@ terraform {
     key            = "dev/terraform.tfstate"
     region         = "ap-northeast-1"
     dynamodb_table = "terraform-lock"
-    profile = "s3-api-lambda"
+    profile        = "s3-api-lambda"
   }
 }

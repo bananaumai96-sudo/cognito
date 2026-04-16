@@ -63,7 +63,10 @@ locals {
     "iam:ListPolicyVersions",
     "iam:DeletePolicy",
     "iam:AddRoleToInstanceProfile",
-    "iam:RemoveRoleFromInstanceProfile"
+    "iam:RemoveRoleFromInstanceProfile",
+    "iam:CreateOpenIDConnectProvider",
+    "iam:GetOpenIDConnectProvider",
+    "iam:DeleteOpenIDConnectProvider"
   ]
 
   lambda_Actions = [

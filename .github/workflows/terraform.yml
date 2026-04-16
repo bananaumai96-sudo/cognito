@@ -25,15 +25,20 @@ jobs:
           aws-region: ap-northeast-1
 
       - run: terraform init
+        working-directory: ./dev
 
       - run: terraform fmt -check
+        working-directory: ./dev
 
       - run: terraform validate
+        working-directory: ./dev
 
       - name: Terraform Plan
         if: github.event_name == 'pull_request'
         run: terraform plan
+        working-directory: ./dev
 
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main'
         run: terraform apply -auto-approve
+        working-directory: ./dev
