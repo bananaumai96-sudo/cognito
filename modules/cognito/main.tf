@@ -1,45 +1,47 @@
 resource "aws_cognito_user_pool" "main" {
   name = "user-pool"
 
-  auto_verified_attributes = ["email"]
+  auto_verified_attributes = var.modules_auto_verified_attributes
+
 
   schema {
-    name     = "email"
-    attribute_data_type = "String"
-    required = true
-    mutable  = true
+    name     = var.modules_schema_name
+    attribute_data_type = var.modules_schema_attribute_data_type
+    required = var.modules_schema_required
+    mutable  = var.modules_schema_mutable
   }
+
 }
 
 resource "aws_cognito_user_pool_client" "client" {
   name         = "client"
   user_pool_id = aws_cognito_user_pool.main.id
 
-  generate_secret = false
+  generate_secret = var.modules_generate_secret
 
-  allowed_oauth_flows = ["implicit"]
-  allowed_oauth_scopes = ["email", "openid", "profile"]
-  allowed_oauth_flows_user_pool_client = true
+  allowed_oauth_flows = var.modules_allowed_oauth_flows
+  allowed_oauth_scopes = var.modules_allowed_oauth_scopes
+  allowed_oauth_flows_user_pool_client = var.modules_allowed_oauth_flows_user_pool_client
 
-  callback_urls = ["https://d7vo1194b0w.cloudfront.net"]
-  logout_urls   = ["https://d7vo1194b0w.cloudfront.net/login.html"]
+  callback_urls = var.modules_callback_urls
+  logout_urls   = var.modules_logout_urls
 
-  supported_identity_providers = ["COGNITO"]
+  supported_identity_providers = var.modules_supported_identity_providers
 }
 
 resource "aws_cognito_user_pool_domain" "domain" {
-  domain       = "my-sample-auth-domain-12345" # ←一意にする
+  domain       = var.modules_user_pool_domain # ←一意にする
   user_pool_id = aws_cognito_user_pool.main.id
 }
 
 resource "aws_cognito_user" "test_user" {
   user_pool_id = aws_cognito_user_pool.main.id
-  username     = "test@example.com"
+  username     = var.modules_username
 
   attributes = {
-    email = "test@example.com"
-    email_verified = "true"
+    email = var.modules_attributes_email
+    email_verified = var.modules_attributes_email_verified
   }
 
-  temporary_password = "TempPass123!"
+  temporary_password = var.modules_temporary_password
 }

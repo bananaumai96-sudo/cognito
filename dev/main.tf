@@ -1,12 +1,17 @@
 # --- Lambda関数作成 ---
 module "lambda" {
   source                       = "../modules/lambda"
+  #--- lambda_function ---
   modules_name                 = var.name
   modules_handler              = var.handler
   modules_runtime              = var.runtime
   modules_filename             = var.filename
+
+  # --- role ---
   modules_lambda_policy_arn    = var.policy_arn
   modules_lambda_db_policy_arn = var.db_policy_arn
+
+  # --- lambda_permission ---
   modules_lambda_action        = var.lambda_action
   modules_lambda_principal     = var.lambda_principal
 }
@@ -20,15 +25,20 @@ module "s3" {
 # --- API Gateway作成 ---
 module "api" {
   source                         = "../modules/api"
+  # --- api ---
   modules_api_protocol           = var.api_protocol
   modules_api_route              = var.api_route
   modules_integration_uri        = module.lambda.lamubda_function_invoke
   modules_api_allow_origins      = var.api_allow_origins
   modules_api_allow_headers      = var.api_allow_headers
   modules_api_allow_methods      = var.api_allow_methods
+
+  # --- integration ---
   modules_integration_type       = var.api_integration_type
   modules_integration_method     = var.api_integration_method
   modules_payload_format_version = var.api_payload_format_version
+
+  # --- cognito用route ---
   modules_api_cognito_issuer = "https://cognito-idp.ap-northeast-1.amazonaws.com/${module.cognito.userpool_main_id}"
   modules_api_cognito_audience = module.cognito.userpool_client_id
 }
@@ -45,7 +55,31 @@ module "DynamoDB" {
   modules_db_gsi_projection_type = var.db_gsi_projection_type
 }
 
-# --- DynaoDB作成 ---
+# --- Cognito作成 ---
 module "cognito" {
   source = "../modules/cognito"
+  # --- user_pool ---
+  modules_auto_verified_attributes = var.auto_verified_attributes
+  modules_schema_attribute_data_type = var.schema_attribute_data_type
+  modules_schema_name = var.schema_name
+  modules_schema_required = var.schema_required
+  modules_schema_mutable = var.schema_mutable
+
+  # --- user_pool_client ---
+  modules_generate_secret = var.generate_secret
+  modules_allowed_oauth_flows = var.allowed_oauth_flows
+  modules_allowed_oauth_scopes = var.allowed_oauth_scopes
+  modules_allowed_oauth_flows_user_pool_client = var.allowed_oauth_flows_user_pool_client
+  modules_callback_urls = var.callback_urls
+  modules_logout_urls = var.logout_urls
+  modules_supported_identity_providers = var.supported_identity_providers
+
+  # --- user_pool_domain ---
+  modules_user_pool_domain = var.user_pool_domain
+
+  # --- cognito_user ---
+  modules_username = var.username
+  modules_attributes_email = var.attributes_email
+  modules_attributes_email_verified = var.attributes_email_verified
+  modules_temporary_password = var.temporary_password
 }
