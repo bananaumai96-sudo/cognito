@@ -46,7 +46,7 @@ jobs:
 
       - name: Terraform Plan
         if: github.event_name == 'pull_request'
-        run: terraform plan -input=false -var-file="./dev/dev.tfvars" -out=tfplan
+        run: terraform plan -input=false -var-file="/dev/dev.tfvars" -out=tfplan
         working-directory: ./dev
 
       - name: Terraform Apply
