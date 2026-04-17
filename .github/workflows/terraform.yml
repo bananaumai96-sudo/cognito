@@ -47,10 +47,10 @@ jobs:
 
       - name: Terraform Plan
         if: github.event_name == 'pull_request'
-        run: terraform plan -input=false -var-file="dev.tfvars" -out=tfplan
+        run: terraform plan -input=false -var-file="dev.tfvars"
         working-directory: ./dev
 
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main'
-        run: terraform apply -auto-approve -input=false tfplan
+        run: terraform apply -auto-approve -input=false -var-file="dev.tfvars"
         working-directory: ./dev
