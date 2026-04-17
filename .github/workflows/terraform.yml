@@ -17,6 +17,7 @@ jobs:
       id-token: write
       contents: read
     
+    environment: secrets
     env:
       TF_VAR_username: ${{ secrets.username }}
       TF_VAR_attributes_email: ${{ secrets.attributes_email }}
