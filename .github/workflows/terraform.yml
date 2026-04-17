@@ -16,6 +16,13 @@ jobs:
     permissions:
       id-token: write
       contents: read
+    
+    env:
+      TF_VAR_username: ${{ secrets.username }}
+      TF_VAR_attributes_email: ${{ secrets.attributes_email }}
+      TF_VAR_temporary_password: ${{ secrets.temporary_password }}
+      TF_VAR_policy_arn: ${{ secrets.policy_arn }}
+      TF_VAR_db_policy_arn: ${{ secrets.db_policy_arn }}
 
     steps:
       - uses: actions/checkout@v3
@@ -39,10 +46,10 @@ jobs:
 
       - name: Terraform Plan
         if: github.event_name == 'pull_request'
-        run: terraform plan -var-file="./dev/terraform.tfvars"
+        run: terraform plan -input=false -var-file="./dev/dev.tfvars" -out=tfplan
         working-directory: ./dev
 
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main'
-        run: terraform apply -auto-approve -var-file="./dev/terraform.tfvars"
+        run: terraform apply -auto-approve -input=false tfplan
         working-directory: ./dev
