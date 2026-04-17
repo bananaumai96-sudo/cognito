@@ -24,7 +24,7 @@ api_route = [
   "POST /users",
   "GET /users"
 ]
-api_allow_origins = ["https://d7vo1194b0w.cloudfront.net"]
+api_allow_origins = ["https://d3jgcwjk03etou.cloudfront.net"]
 api_allow_methods = ["GET", "POST", "OPTIONS"]
 api_allow_headers = ["Content-Type", "Authorization"]
 
@@ -55,8 +55,8 @@ generate_secret                      = false
 allowed_oauth_flows                  = ["code"]
 allowed_oauth_scopes                 = ["email", "openid", "profile"]
 allowed_oauth_flows_user_pool_client = true
-callback_urls                        = ["https://d7vo1194b0w.cloudfront.net"]
-logout_urls                          = ["https://d7vo1194b0w.cloudfront.net/login.html"]
+callback_urls                        = ["https://d3jgcwjk03etou.cloudfront.net"]
+logout_urls                          = ["https://d3jgcwjk03etou.cloudfront.net/login.html"]
 supported_identity_providers         = ["COGNITO"]
 
 # --- user_pool_domain ---

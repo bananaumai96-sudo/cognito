@@ -141,7 +141,11 @@ locals {
     "cloudfront:DeleteCachePolicy",
     "cloudfront:UpdateCachePolicy",
     "cloudfront:ListOriginRequestPolicies",
-    "cloudfront:ListCachePolicies"
+    "cloudfront:ListCachePolicies",
+    "cloudfront:CreateOriginAccessControl",
+    "cloudfront:GetOriginAccessControl",
+    "cloudfront:UpdateOriginAccessControl",
+    "cloudfront:DeleteOriginAccessControl"
   ]
 
   common_tags = {
