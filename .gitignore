@@ -10,8 +10,8 @@
 **/*.tfvars.json
 
 #排除しない
-**/!terraform.tfvars.example 
-**/!dev.tfvars
+!terraform.tfvars.example 
+!dev.tfvars
 
 # Crash logs
 **/crash.log
