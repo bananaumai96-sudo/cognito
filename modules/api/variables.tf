@@ -1,54 +1,54 @@
 variable "modules_api_protocol" {
-    description = "protocol"
-    type = string
+  description = "protocol"
+  type        = string
 }
 
 variable "modules_api_route" {
-    description = "aip_route"
-    type = list(string)
+  description = "aip_route"
+  type        = list(string)
 }
 
 variable "modules_api_allow_origins" {
-    description = "allow_origins"
-    type = list(string) 
+  description = "allow_origins"
+  type        = list(string)
 }
 
 variable "modules_api_allow_methods" {
-    description = "allow_methods"
-    type = list(string)    
+  description = "allow_methods"
+  type        = list(string)
 }
 
 variable "modules_api_allow_headers" {
-    description = "allow_headers"
-    type = list(string)   
+  description = "allow_headers"
+  type        = list(string)
 }
 
 variable "modules_integration_uri" {
-    description = "integration_uri"
-    type = string
+  description = "integration_uri"
+  type        = string
 }
 
 variable "modules_integration_type" {
-    description = "integration_type"
-    type = string
+  description = "integration_type"
+  type        = string
 }
 
 variable "modules_integration_method" {
-    description = "integration_method"
-    type = string
+  description = "integration_method"
+  type        = string
 }
 
 variable "modules_payload_format_version" {
-    description = "payload_format_version"
-    type = string
+  description = "payload_format_version"
+  type        = string
 }
 
 variable "modules_api_cognito_issuer" {
-    description = "cognito_issuer"
-    type = string
+  description = "cognito_issuer"
+  type        = string
 }
 
 variable "modules_api_cognito_audience" {
-    description = "cognito_audience"
-    type = string
+  description = "cognito_audience"
+  type        = string
 }

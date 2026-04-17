@@ -11,5 +11,6 @@ terraform {
 }
 
 provider "aws" {
-  region = "ap-northeast-1"
+  profile = "s3-api-lambda"
+  region  = "ap-northeast-1"
 }

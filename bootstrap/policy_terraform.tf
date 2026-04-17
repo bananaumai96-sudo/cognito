@@ -28,17 +28,24 @@ data "aws_iam_policy_document" "terraform_policy" {
     resources = ["*"]
   }
 
-    statement {
+  statement {
     sid       = "dynamodbActions"
     effect    = "Allow"
     actions   = local.dynamodb_Actions
     resources = ["*"]
   }
 
-    statement {
+  statement {
     sid       = "cognitoActions"
     effect    = "Allow"
     actions   = local.cognito_Actions
+    resources = ["*"]
+  }
+
+  statement {
+    sid       = "cloudfrontActions"
+    effect    = "Allow"
+    actions   = local.cloudfront_Actions
     resources = ["*"]
   }
 }
