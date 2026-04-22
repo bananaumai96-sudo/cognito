@@ -6,14 +6,28 @@
 </head>
 <body>
 
-<h2>ログイン</h2>
-<button onclick="login()">Cognitoログイン</button>
+<h2>ログイン中...</h2>
 
 <script>
 const domain = "https://my-sample-auth-domain-12345.auth.ap-northeast-1.amazoncognito.com";
-const clientId = "60d4dpns1s1q1istp3u6lb3003";
-const redirectUri = "https://d3jgcwjk03etou.cloudfront.net";
+const clientId = "51r5lv57lkjr5m53c4m1rr5gmc";
+const redirectUri = "https://d3ca0c4sh5rria.cloudfront.net";
 const API_URL= "https://2ie3z6tl25.execute-api.ap-northeast-1.amazonaws.com/secure";
+
+// =====================
+// 初期処理
+// =====================
+window.onload = function () {
+  const token = getToken();
+
+  if (!token) {
+    // トークンなければログイン画面へ
+    login();
+  } else {
+    // ログイン後
+    console.log("ログイン成功:", token);
+  }
+};
 
 // =====================
 // ログイン
@@ -31,6 +45,7 @@ function getToken() {
   const params = new URLSearchParams(hash);
   return params.get("id_token");
 }
+
 
 </script>
 
