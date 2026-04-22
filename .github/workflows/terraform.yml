@@ -5,6 +5,12 @@ on:
   push:
     branches: [main]
 
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: "type DESTROY to confirm"
+        required: true
+
 concurrency:
   group: terraform-dev
   cancel-in-progress: true
