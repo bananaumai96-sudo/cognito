@@ -61,7 +61,7 @@ jobs:
         working-directory: ./dev
 
       - name: Terraform Apply
-        if: if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
         run: terraform apply -auto-approve -input=false -var-file="dev.tfvars"
         working-directory: ./dev
 
