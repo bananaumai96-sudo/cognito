@@ -64,3 +64,5 @@ jobs:
       - name: Terraform Destroy
         if: ${{ github.event.inputs.confirm == 'DESTROY' }}
         run: terraform destroy -auto-approve
+        working-directory: ./dev
+
