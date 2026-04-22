@@ -60,3 +60,7 @@ jobs:
         if: github.ref == 'refs/heads/main'
         run: terraform apply -auto-approve -input=false -var-file="dev.tfvars"
         working-directory: ./dev
+
+      - name: Terraform Destroy
+        if: ${{ github.event.inputs.confirm == 'DESTROY' }}
+        run: terraform destroy -auto-approve
