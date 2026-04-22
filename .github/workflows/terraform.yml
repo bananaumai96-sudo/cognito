@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
     inputs:
       confirm:
-        description: "type DESTROY to confirm"
+        description: "type APPLY or DESTROY to confirm"
         required: true
 
 concurrency:
@@ -57,7 +57,7 @@ jobs:
         working-directory: ./dev
 
       - name: Terraform Apply
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main' || ${{ github.event.inputs.confirm == 'APPLY' }}
         run: terraform apply -auto-approve -input=false -var-file="dev.tfvars"
         working-directory: ./dev
 
@@ -65,4 +65,3 @@ jobs:
         if: ${{ github.event.inputs.confirm == 'DESTROY' }}
         run: terraform destroy -auto-approve -input=false -var-file="dev.tfvars"
         working-directory: ./dev
-
