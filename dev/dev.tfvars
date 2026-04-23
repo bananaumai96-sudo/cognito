@@ -23,13 +23,13 @@ api_route = [
   "OPTIONS /hello",
   "POST /users",
   "GET /users"
+  "POST /token"
 ]
 api_allow_origins = ["https://d3ca0c4sh5rria.cloudfront.net"]
 api_allow_methods = ["GET", "POST", "OPTIONS"]
 api_allow_headers = ["Content-Type", "Authorization"]
 api_secure_route = [
   "GET /secure",
-  "POST /secure"
 ]
 
 # --- integration ---
