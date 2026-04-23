@@ -20,19 +20,15 @@ const TOKEN_API= "https://ixvlupemfe.execute-api.ap-northeast-1.amazonaws.com/to
 // =====================
 window.onload = async function () {
   const token = await init();
-  console.log('Bearer ' + access_token);
- 
 
   if (!token) {
     // トークンなければログイン画面へ
     login();
-  } else {
-    // ログイン後
-    console.log("ログイン成功:", token);
+    return;
   }
 
-   const result = getToken();
-   console.log("API結果:", result);
+  const result = await getSecure();
+
 };
 
 // =====================
@@ -47,7 +43,7 @@ function login() {
 // トークン取得
 // =====================
 
-async function getToken() {
+async function getSecure() {
  const res = await fetch(SECURE_API, {
     method: "GET",
     headers: {
@@ -63,8 +59,6 @@ async function init() {
   const params = new URLSearchParams(window.location.search);
   const code = params.get("code");
 
-  console.log("code:", code);
-
   if (!code) return null;
 
   const res = await fetch(TOKEN_API, {
@@ -75,10 +69,7 @@ async function init() {
     body: JSON.stringify({ code })
   });
 
-  const text = await res.text();
-
   if (!res.ok) {
-    console.error("token API error:", text);
     return null;
   }
 

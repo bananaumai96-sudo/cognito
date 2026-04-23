@@ -115,11 +115,6 @@ def create_token(event):
         code = body.get("code")
         code_verifier = body.get("code_verifier")
 
-        print("code:", code)
-        print("code_verifier:", code_verifier)
-        print("redirect_uri:", REDIRECT_URI)
-        print("client_id:", CLIENT_ID)
-
         if not code:
             return response(400, {"error": "code is required"})
 

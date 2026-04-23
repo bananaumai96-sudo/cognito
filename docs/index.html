@@ -66,8 +66,6 @@
       const params = new URLSearchParams(window.location.search);
       const code = params.get("code");
 
-      console.log("code:", code);
-
       if (!code) return null;
 
       const res = await fetch(`${API_URL}/token`, {
@@ -78,10 +76,8 @@
         body: JSON.stringify({ code })
       });
 
-      const text = await res.text();
 
       if (!res.ok) {
-        console.error("token API error:", text);
         return null;
       }
 
@@ -92,20 +88,12 @@
     }
 
     window.onload = async () => {
-      const token = await init(); // ← ここ重要（待つ）
-
-      const params = new URLSearchParams(window.location.search);
-      const code = params.get("code");
+      const token = await init();
 
       if (!token) {
-        if (code) {
-          console.error("codeあるのにtoken取得失敗（ここが原因）");
-          return; // ← 無限ループ防止
-        }
         window.location.href = "/login.html";
         return;
       }
-      console.log("ログイン済み:", token);
     };
 
 
