@@ -40,7 +40,7 @@ module "api" {
   modules_payload_format_version = var.api_payload_format_version
 
   # --- cognito用route ---
-  modules_api_secure_route = var.api_secure_route
+  modules_api_secure_route     = var.api_secure_route
   modules_api_cognito_issuer   = "https://cognito-idp.ap-northeast-1.amazonaws.com/${module.cognito.userpool_main_id}"
   modules_api_cognito_audience = module.cognito.userpool_client_id
 }
