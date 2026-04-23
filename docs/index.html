@@ -57,7 +57,6 @@
   <hr>
   <h2>ログアウト</h2>
   <button onclick="logout()">ログアウト</button>
-  <h2>ログイン中...</h2>
 
   <script>
     const API_URL= "https://ixvlupemfe.execute-api.ap-northeast-1.amazonaws.com";
@@ -67,9 +66,11 @@
       const params = new URLSearchParams(window.location.search);
       const code = params.get("code");
 
+      console.log("code:", code);
+
       if (!code) return null;
 
-      const res = await fetch(TOKEN_API, {
+      const res = await fetch(`${API_URL}/token`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -77,26 +78,34 @@
         body: JSON.stringify({ code })
       });
 
+      const text = await res.text();
+
+      if (!res.ok) {
+        console.error("token API error:", text);
+        return null;
+      }
+
       const data = await res.json();
       access_token = data.access_token;
 
       return access_token;
     }
 
+    window.onload = async () => {
+      const token = await init(); // ← ここ重要（待つ）
 
-    window.onload = () => {
-      const token = init();
-      console.log('Bearer ' + access_token);
+      const params = new URLSearchParams(window.location.search);
+      const code = params.get("code");
 
       if (!token) {
-        // ログイン画面へリダイレクト
-        window.location.href =
-          "https://d3ca0c4sh5rria.cloudfront.net/login.html" +
-          "?response_type=code" +
-          "&client_id=51r5lv57lkjr5m53c4m1rr5gmc" +
-          "&redirect_uri=" + window.location.href;
-          "&scope=openid+email+profile"
+        if (code) {
+          console.error("codeあるのにtoken取得失敗（ここが原因）");
+          return; // ← 無限ループ防止
+        }
+        window.location.href = "/login.html";
+        return;
       }
+      console.log("ログイン済み:", token);
     };
 
 

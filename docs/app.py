@@ -4,6 +4,7 @@ import uuid
 from boto3.dynamodb.conditions import Key
 import urllib.parse
 import urllib.request
+import traceback
 
 dynamodb = boto3.resource("dynamodb")
 table = dynamodb.Table("users")
@@ -108,16 +109,20 @@ def creates_users(event):
         return response(400, {"error": str(e)})
 
 def create_token(event):
-    body = json.loads(event.get("body", "{}"))
-    code = body.get("code")
+    try:
+        body = json.loads(event.get("body", "{}"))
+        code = body.get("code")
+        code_verifier = body.get("code_verifier")
 
-    if not code:
-        return response(400, {"error": "code is required"})
+        print("code:", code)
+        print("code_verifier:", code_verifier)
+        print("redirect_uri:", REDIRECT_URI)
+        print("client_id:", CLIENT_ID)
 
-    code_verifier = body.get("code_verifier")
+        if not code:
+            return response(400, {"error": "code is required"})
 
-    # Cognitoに送るデータ
-    data = urllib.parse.urlencode({
+        data = urllib.parse.urlencode({
             "grant_type": "authorization_code",
             "client_id": CLIENT_ID,
             "code": code,
@@ -125,16 +130,24 @@ def create_token(event):
             "code_verifier": code_verifier
         }).encode("utf-8")
 
-    req = urllib.request.Request(
-        f"{COGNITO_DOMAIN}/oauth2/token",
-        data=data,
-        headers={"Content-Type": "application/x-www-form-urlencoded"},
-        method="POST"
-    )
+        req = urllib.request.Request(
+            f"{COGNITO_DOMAIN}/oauth2/token",
+            data=data,
+            headers={"Content-Type": "application/x-www-form-urlencoded"},
+            method="POST"
+        )
 
-    with urllib.request.urlopen(req) as res:
-        result = json.loads(res.read().decode("utf-8"))
-        return response(200, result)
+        with urllib.request.urlopen(req) as res:
+            result = json.loads(res.read().decode("utf-8"))
+            return response(200, result)
+
+    except Exception as e:
+        print("ERROR OCCURED")
+        print(traceback.format_exc())
+
+        return response(500, {
+            "error": str(e)
+        })
 
 def response(status, body):
     return {
