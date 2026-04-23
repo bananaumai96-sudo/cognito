@@ -54,11 +54,20 @@
   <button onclick="getsData()">検索</button>
   <p id="getsResult"></p>
 
+  <hr>
+  <h2>ログアウト</h2>
+  <button onclick="logout()">ログアウト</button>
+  <h2>ログイン中...</h2>
+
   <script>
     function getToken() {
-      const hash = window.location.hash.substring(1);
-      const params = new URLSearchParams(hash);
-      return params.get("id_token");
+      const res = fetch(API_URL, {
+        headers: {
+          Authorization: `Bearer ${access_token}`
+        }
+      });
+
+      return res.jeson()
     }
 
     window.onload = () => {
@@ -68,13 +77,13 @@
         // ログイン画面へリダイレクト
         window.location.href =
           "https://d3ca0c4sh5rria.cloudfront.net/login.html" +
-          "?response_type=token" +
-          "&client_id=your-client-id" +
+          "?response_type=code" +
+          "&client_id=51r5lv57lkjr5m53c4m1rr5gmc" +
           "&redirect_uri=" + window.location.href;
       }
     };
 
-    const API_URL= "https://2ie3z6tl25.execute-api.ap-northeast-1.amazonaws.com";
+    const API_URL= "https://ixvlupemfe.execute-api.ap-northeast-1.amazonaws.com";
 
     async function callApi() {
       clearResults();
@@ -225,6 +234,16 @@
         document.getElementById("getsResult").innerText = "エラー：" + e;
       }
   }
+
+  function logout() {
+    const logoutUrl =
+    "https://my-sample-auth-domain-12345.auth.ap-northeast-1.amazoncognito.com/logout" +
+    "?client_id=51r5lv57lkjr5m53c4m1rr5gmc" +
+    "&logout_uri=https://d3ca0c4sh5rria.cloudfront.net/login.html";
+
+    window.location.href = logoutUrl;
+  }
+
 
   function clearResults() {
     document.getElementById("getResult").innerHTML = "";

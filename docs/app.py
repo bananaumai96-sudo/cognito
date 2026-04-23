@@ -9,6 +9,8 @@ table = dynamodb.Table("users")
 def lambda_handler(event, context):
     method = event.get("requestContext", {}).get("http", {}).get("method")
     path = event["rawPath"]
+    claims = event["requestContext"]["authorizer"]["claims"]
+    user_id = claims["sub"]
 
     if method == "OPTIONS":
         return response(200, "")
@@ -20,6 +22,8 @@ def lambda_handler(event, context):
         return creates_users(event)
     elif method == "GET" and path == "/users":
         return gets_users(event)
+    elif method == "GET" and path == "/secure":
+        return response(200,user_id)
     else:
         return response(400, {"error": "条件一致無し"})
     

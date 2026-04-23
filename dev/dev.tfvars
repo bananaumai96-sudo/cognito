@@ -52,7 +52,7 @@ schema_mutable             = true
 
 # --- user_pool_client ---
 generate_secret                      = false
-allowed_oauth_flows                  = ["implicit"]
+allowed_oauth_flows                  = ["code"]
 allowed_oauth_scopes                 = ["email", "openid", "profile"]
 allowed_oauth_flows_user_pool_client = true
 callback_urls                        = ["https://d3ca0c4sh5rria.cloudfront.net"]

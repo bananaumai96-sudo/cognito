@@ -12,7 +12,7 @@
 const domain = "https://my-sample-auth-domain-12345.auth.ap-northeast-1.amazoncognito.com";
 const clientId = "51r5lv57lkjr5m53c4m1rr5gmc";
 const redirectUri = "https://d3ca0c4sh5rria.cloudfront.net";
-const API_URL= "https://2ie3z6tl25.execute-api.ap-northeast-1.amazonaws.com/secure";
+const API_URL= "https://ixvlupemfe.execute-api.ap-northeast-1.amazonaws.com/secure";
 
 // =====================
 // 初期処理
@@ -33,7 +33,7 @@ window.onload = function () {
 // ログイン
 // =====================
 function login() {
-  const url = `${domain}/login?response_type=token&client_id=${clientId}&redirect_uri=${redirectUri}`;
+  const url = `${domain}/login?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}`;
   window.location.href = url;
 }
 
@@ -41,9 +41,13 @@ function login() {
 // トークン取得
 // =====================
 function getToken() {
-  const hash = window.location.hash.substring(1);
-  const params = new URLSearchParams(hash);
-  return params.get("id_token");
+ const res = fetch(API_URL, {
+    headers: {
+      Authorization: `Bearer ${access_token}`
+    }
+  });
+
+  return res.jeson()
 }
 
 
