@@ -2,9 +2,15 @@ import json
 import boto3
 import uuid
 from boto3.dynamodb.conditions import Key
+import urllib.parse
+import urllib.request
 
 dynamodb = boto3.resource("dynamodb")
 table = dynamodb.Table("users")
+
+COGNITO_DOMAIN = "https://my-sample-auth-domain-12345.auth.ap-northeast-1.amazoncognito.com"
+CLIENT_ID = "51r5lv57lkjr5m53c4m1rr5gmc"
+REDIRECT_URI = "https://d3ca0c4sh5rria.cloudfront.net"
 
 def lambda_handler(event, context):
     method = event.get("requestContext", {}).get("http", {}).get("method")
@@ -23,7 +29,9 @@ def lambda_handler(event, context):
     elif method == "GET" and path == "/users":
         return gets_users(event)
     elif method == "GET" and path == "/secure":
-        return response(200,user_id)
+        return response(200,{"user_id": user_id})
+    elif method == "POST" and path == "/secure":
+        return create_token(event)
     else:
         return response(400, {"error": "条件一致無し"})
     
@@ -98,6 +106,35 @@ def creates_users(event):
 
     except Exception as e:
         return response(400, {"error": str(e)})
+
+def create_token(event):
+    body = json.loads(event.get("body", "{}"))
+    code = body.get("code")
+
+    if not code:
+        return response(400, {"error": "code is required"})
+
+    code_verifier = body.get("code_verifier")
+    
+    # Cognitoに送るデータ
+    data = urllib.parse.urlencode({
+            "grant_type": "authorization_code",
+            "client_id": CLIENT_ID,
+            "code": code,
+            "redirect_uri": REDIRECT_URI,
+            "code_verifier": code_verifier
+        }).encode("utf-8")
+
+    req = urllib.request.Request(
+        f"{COGNITO_DOMAIN}/oauth2/token",
+        data=data,
+        headers={"Content-Type": "application/x-www-form-urlencoded"},
+        method="POST"
+    )
+
+    with urllib.request.urlopen(req) as res:
+        result = json.loads(res.read().decode("utf-8"))
+        return response(200, result)
 
 def response(status, body):
     return {
