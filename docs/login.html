@@ -63,6 +63,8 @@ async function init() {
   const params = new URLSearchParams(window.location.search);
   const code = params.get("code");
 
+  console.log("code:", code);
+
   if (!code) return null;
 
   const res = await fetch(TOKEN_API, {
@@ -73,11 +75,17 @@ async function init() {
     body: JSON.stringify({ code })
   });
 
+  const text = await res.text();
+
+  if (!res.ok) {
+    console.error("token API error:", text);
+    return null;
+  }
+
   const data = await res.json();
   access_token = data.access_token;
 
   return access_token;
-  
 }
 
 

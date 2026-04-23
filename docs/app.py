@@ -16,8 +16,7 @@ REDIRECT_URI = "https://d3ca0c4sh5rria.cloudfront.net"
 def lambda_handler(event, context):
     method = event.get("requestContext", {}).get("http", {}).get("method")
     path = event["rawPath"]
-    claims = event["requestContext"]["authorizer"]["claims"]
-    user_id = claims["sub"]
+
 
     if method == "OPTIONS":
         return response(200, "")
@@ -30,6 +29,8 @@ def lambda_handler(event, context):
     elif method == "GET" and path == "/users":
         return gets_users(event)
     elif method == "GET" and path == "/secure":
+        claims = event["requestContext"]["authorizer"]["claims"]
+        user_id = claims["sub"]
         return response(200,{"user_id": user_id})
     elif method == "POST" and path == "/token":
         return create_token(event)
