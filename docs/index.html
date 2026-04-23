@@ -60,14 +60,16 @@
   <h2>ログイン中...</h2>
 
   <script>
-    function getToken() {
-      const res = fetch(API_URL, {
+    const API_URL= "https://ixvlupemfe.execute-api.ap-northeast-1.amazonaws.com";
+
+    async function getToken() {
+      const res = await fetch(`${API_URL}/secure`, {
         headers: {
           Authorization: `Bearer ${access_token}`
         }
       });
 
-      return res.jeson()
+      return res.json()
     }
 
     window.onload = () => {
@@ -83,7 +85,6 @@
       }
     };
 
-    const API_URL= "https://ixvlupemfe.execute-api.ap-northeast-1.amazonaws.com";
 
     async function callApi() {
       clearResults();

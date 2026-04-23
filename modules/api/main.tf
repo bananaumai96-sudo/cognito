@@ -44,8 +44,9 @@ resource "aws_apigatewayv2_authorizer" "cognito_auth" {
 }
 
 resource "aws_apigatewayv2_route" "secured" {
+  for_each  = toset(var.modules_api_secure_route)
   api_id    = aws_apigatewayv2_api.api.id
-  route_key = "GET /secure"
+  route_key = each.value
 
   target = "integrations/${aws_apigatewayv2_integration.lambda.id}"
 

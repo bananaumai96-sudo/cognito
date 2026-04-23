@@ -52,3 +52,8 @@ variable "modules_api_cognito_audience" {
   description = "cognito_audience"
   type        = string
 }
+
+variable "modules_api_secure_route" {
+  description = "aip_secure_route"
+  type        = list(string)
+}
