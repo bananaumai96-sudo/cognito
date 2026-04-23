@@ -22,7 +22,7 @@ api_route = [
   "POST /hello",
   "OPTIONS /hello",
   "POST /users",
-  "GET /users"
+  "GET /users",
   "POST /token"
 ]
 api_allow_origins = ["https://d3ca0c4sh5rria.cloudfront.net"]
