@@ -30,7 +30,7 @@ def lambda_handler(event, context):
         return gets_users(event)
     elif method == "GET" and path == "/secure":
         return response(200,{"user_id": user_id})
-    elif method == "POST" and path == "/secure":
+    elif method == "POST" and path == "/token":
         return create_token(event)
     else:
         return response(400, {"error": "条件一致無し"})
@@ -115,7 +115,7 @@ def create_token(event):
         return response(400, {"error": "code is required"})
 
     code_verifier = body.get("code_verifier")
-    
+
     # Cognitoに送るデータ
     data = urllib.parse.urlencode({
             "grant_type": "authorization_code",
