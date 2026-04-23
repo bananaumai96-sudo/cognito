@@ -40,14 +40,14 @@ function login() {
 // =====================
 // トークン取得
 // =====================
-function getToken() {
- const res = fetch(API_URL, {
+async function getToken() {
+ const res = await fetch(API_URL, {
     headers: {
       Authorization: `Bearer ${access_token}`
     }
   });
 
-  return res.jeson()
+  return res.json()
 }
 
 
